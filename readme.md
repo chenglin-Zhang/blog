@@ -6,32 +6,31 @@ media文件: 文件上传的文件
 FileField(upload_to='表示文件上传路径' , uploads/%Y/%m/%d)
 
 此路径是基于media_root指明的路径:
-MEDIA_URL = '/static/media'
-MEDIA_ROOT = os.path.join(BASE_DIR, 'static/media')
+    MEDIA_URL = '/static/media'
+    MEDIA_ROOT = os.path.join(BASE_DIR, 'static/media')
 
 模板中如果使用引用上传的文件,并显示:
-就需要再setting.ty 添加 .media
+    就需要再setting.py 添加 .media
 
 
 
 
 系统默认用户的几重使用
-1.必须继承AbstractUser
 
-2.必修修改setting.py
-
-3.执行迁移和同步
-
-
+    1.必须继承AbstractUser
+    2.必修修改setting.py
+    3.执行迁移和同步
 
 forms 表单
-Django会处理涉及表单的三个不同部分:
-    准备并重组数据, 以便下一步选人
-    为数据创建Html表单,
-    接收并处理客户端提交的表单数据
+
+    Django会处理涉及表单的三个不同部分:
+        准备并重组数据, 以便下一步选人
+        为数据创建Html表单,
+        接收并处理客户端提交的表单数据
 
 
 session的使用:
+
     request.session
 
     设置session的值
