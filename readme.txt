@@ -40,7 +40,7 @@ session的使用:
     取值
     value = request.session.get(key)
 
-    删除
+    删除aa
     request.session.clear()
     request.session.flush()
     request.session[key] # 删除指定的key
