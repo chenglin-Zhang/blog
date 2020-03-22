@@ -1,5 +1,3 @@
-from audioop import reverse
-
 from django.contrib.auth import logout, authenticate, login
 from django.contrib.auth.hashers import make_password, check_password
 from django.db.models import Q
@@ -23,9 +21,7 @@ def user_register(request):
     else:
         reform = RegisterForm(request.POST)  # 使用form获取数据
         if reform.is_valid():  # 数据校验
-            # if True:  # 数据校验
-            print("1")
-            # 取值
+            # 从前台获取input值
             username = reform.cleaned_data.get('username')
             email = reform.cleaned_data.get('email')
             mobile = reform.cleaned_data.get('mobile')
@@ -67,7 +63,7 @@ def user_login(request):
                 return redirect('index')
         return render(request, 'user/login.html', context={'errors': lform.errors})
 
-
+# 发送验证码
 def code_login(request):
     if request.method == "GET":
         return render(request, 'user/codelogin.html')
@@ -79,6 +75,19 @@ def code_login(request):
         check_code = request.session.get(mobile)
         print(check_code)
         if code == check_code:
+            #验证码匹配后根据手机号获取user对象数据
+            user = UserProfiles.objects.filter(mobile=mobile).first()
+            # 认证 如果合法 返回User对象, 如果不合法返回None
+            # 认证给出的用户名和密码，使用 authenticate() 函数。它接受两个参数，用户名 username 和 密码 password ，
+            # 并在密码对给出的用户名合法的情况下返回一个 User 对象。 如果密码不合法，authenticate()返回None。
+            # https://www.cnblogs.com/ccorz/p/6357815.html
+
+            # 该user.password 的是来自于数据中查询得到的明文password 和认证的password不一致
+            # user = authenticate(username=user.username, password=user.password)
+            if user:
+                # authenticate() 只是验证一个用户的证书而已。 而要登录一个用户，使用 login() 。
+                # 该函数接受一个 HttpRequest 对象和一个 User 对象作为参数并使用Django的会话（ session ）框架把用户的ID保存在该会话中。
+                login(request,user)
             return redirect('index')
         else:
             return render(request, 'user/codelogin.html', context={'msg': '验证码有误'})
@@ -110,7 +119,7 @@ def send_code(request):
 
     return JsonResponse(data)
 
-
+# 用户退出登录
 def user_logout(request):
     # request.session.clear()  # 只删除字典
     # request.session.flush()  # 删除dJango_session表 + cookie + 字典

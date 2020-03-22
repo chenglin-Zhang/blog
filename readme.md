@@ -53,3 +53,10 @@ session的使用:
     login(request,user) 类似于session
 
     request.user.is_authenticated 是否是认证过的用户返回值是True, False
+ 
+ 
+发送手机验证码: 第三方
+
+    发送验证码:
+    
+    验证码登录
