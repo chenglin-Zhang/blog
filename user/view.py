@@ -10,6 +10,7 @@ from user.froms import UserRegisterForm, RegisterForm, LoginForm
 from user.models import UserProfiles
 from user.utils import util_sendmsg
 
+
 def index(request):
     return render(request, 'index.html')
 
@@ -22,7 +23,7 @@ def user_register(request):
     else:
         reform = RegisterForm(request.POST)  # 使用form获取数据
         if reform.is_valid():  # 数据校验
-        # if True:  # 数据校验
+            # if True:  # 数据校验
             print("1")
             # 取值
             username = reform.cleaned_data.get('username')
@@ -87,21 +88,26 @@ def code_login(request):
 def send_code(request):
     moblie = request.GET.get('mobile')
     data = {}
-    print(moblie)
-    json_result = util_sendmsg(moblie)
-    print(json_result)
     # 取值
-    status = json_result.get('code')
-    if status == 200:
-        check_code = json_result.get("obj")
-        # 使用session保存
-        request.session[moblie] = check_code
-        data['status'] = 200
-        data['msg'] = '验证码发送成功'
-    # elif status == 500:
+    if UserProfiles.objects.filter(mobile=moblie).exists():
+        # 发送第三验证码
+        json_result = util_sendmsg(moblie)
+        print(json_result)
+        status = json_result.get('code')
+        if status == 200:
+            # 在接口返回的json中获取 验证码的值    {'code': 200, 'msg': '8', 'obj': '3928'}
+            check_code = json_result.get("obj")
+            # 使用session保存
+            request.session[moblie] = check_code
+            data['status'] = 200
+            data['msg'] = '验证码发送成功'
+        else:
+            data['status'] = 500
+            data['msg'] = '验证码发送失败'
     else:
-        data['status'] = 500
-        data['msg'] = '验证码发送失败'
+        data['status'] = 501
+        data['msg'] = '该用户不存在'
+
     return JsonResponse(data)
 
 
