@@ -3,12 +3,12 @@ from audioop import reverse
 from django.contrib.auth import logout, authenticate, login
 from django.contrib.auth.hashers import make_password, check_password
 from django.db.models import Q
-from django.http import HttpResponse
+from django.http import HttpResponse, JsonResponse
 from django.shortcuts import render, redirect
 
 from user.froms import UserRegisterForm, RegisterForm, LoginForm
 from user.models import UserProfiles
-
+from user.utils import util_sendmsg
 
 def index(request):
     return render(request, 'index.html')
@@ -22,6 +22,8 @@ def user_register(request):
     else:
         reform = RegisterForm(request.POST)  # 使用form获取数据
         if reform.is_valid():  # 数据校验
+        # if True:  # 数据校验
+            print("1")
             # 取值
             username = reform.cleaned_data.get('username')
             email = reform.cleaned_data.get('email')
@@ -36,7 +38,7 @@ def user_register(request):
                     return HttpResponse("注册成功")
             else:
                 return render(request, 'user/register.html', context={'msg': '用户名或者手机号码已经存在'})
-        return render(request, 'user/register.html', context={'msg', '注册失败'})
+        return render(request, 'user/register.html', context={'msg': '注册失败'})
 
 
 def user_login(request):
@@ -60,9 +62,47 @@ def user_login(request):
             # 方式二 前提: 使用继承了AbstractUser
             user = authenticate(username=username, password=password)
             if user:
-                login(request, user) # 将用户保存在底层的request中 (session)
+                login(request, user)  # 将用户保存在底层的request中 (session)
                 return redirect('index')
         return render(request, 'user/login.html', context={'errors': lform.errors})
+
+
+def code_login(request):
+    if request.method == "GET":
+        return render(request, 'user/codelogin.html')
+    else:
+        mobile = request.POST.get("mobile")
+        code = request.POST.get("code")
+
+        # 根据mobile去session中取值
+        check_code = request.session.get(mobile)
+        print(check_code)
+        if code == check_code:
+            return redirect('index')
+        else:
+            return render(request, 'user/codelogin.html', context={'msg': '验证码有误'})
+
+
+# 发送验证码路由 axaj发送请求
+def send_code(request):
+    moblie = request.GET.get('mobile')
+    data = {}
+    print(moblie)
+    json_result = util_sendmsg(moblie)
+    print(json_result)
+    # 取值
+    status = json_result.get('code')
+    if status == 200:
+        check_code = json_result.get("obj")
+        # 使用session保存
+        request.session[moblie] = check_code
+        data['status'] = 200
+        data['msg'] = '验证码发送成功'
+    # elif status == 500:
+    else:
+        data['status'] = 500
+        data['msg'] = '验证码发送失败'
+    return JsonResponse(data)
 
 
 def user_logout(request):
