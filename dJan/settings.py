@@ -38,7 +38,8 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'user'
+    'user',
+    'captcha'
 ]
 
 #如果用户继承了AbstractUser,修改auth_user的模型
@@ -134,3 +135,16 @@ STATICFILES_DIRS = [os.path.join(BASE_DIR,'static')]
 
 MEDIA_URL = '/static/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'static/media')
+
+
+#发送邮件的设置
+# 网易服务器
+EMAIL_HOST = 'smtp.126.com'
+# 邮箱账户
+EMAIL_HOST_USER = 'zhangchenglinzcl@126.com'
+# 邮箱授权码
+EMAIL_HOST_PASSWORD = 'HTUOMXIBZDPIQOZQ'
+# 端口
+EMAIL_PORT = 25
+EMAIL_USE_TLS = True
+EMAIL_USE_SSL = False

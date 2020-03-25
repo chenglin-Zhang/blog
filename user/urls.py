@@ -8,5 +8,9 @@ urlpatterns = [
     path('logout', user_logout, name='logout'),
     path('codelogin', code_login, name='codelogin'),
     path('send_code', send_code, name='send_code'),
+    path('forget_pwd', forget_password, name='forget_pwd'),
+    path('valide_code', valide_code, name='valide_code'),
+    path('update_pwd', update_pwd, name='update_pwd'),
     path('zhuce', user_zhuce, name='zhuce')
+
 ]

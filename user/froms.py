@@ -1,7 +1,8 @@
 import re
 
+from captcha.fields import CaptchaField
 from django.core.exceptions import ValidationError
-from django.forms import Form, ModelForm
+from django.forms import Form, ModelForm, EmailField
 from django import forms
 
 from user.models import UserProfiles
@@ -41,3 +42,9 @@ class LoginForm(Form):
     #     username = self.cleaned_data.get('username')
     #     if not UserProfiles.objects.filter(username=username).exists():
     #         raise ValidationError('用户名不正确')
+
+
+# 验证码captcha的From
+class CaptchaTestForm(forms.Form):
+    email = EmailField(required=True, label="邮箱", error_messages={'requited': '必须填写邮箱'})
+    captcha = CaptchaField()

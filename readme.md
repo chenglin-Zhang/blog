@@ -60,3 +60,14 @@ session的使用:
     发送验证码:
     
     验证码登录
+    
+
+使用插件captcha验证码
+
+    1. pip install django-simple-captcha
+    2.setting.yp > INSTALL_APPS 添加 captcha
+    3.运行 python manage.py migrate       在库中添加了captcha表
+    4.urls.py中添加entry
+    
+
+    

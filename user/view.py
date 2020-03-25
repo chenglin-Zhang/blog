@@ -1,12 +1,14 @@
+from captcha.models import CaptchaStore
 from django.contrib.auth import logout, authenticate, login
 from django.contrib.auth.hashers import make_password, check_password
+from django.core.mail import send_mail
 from django.db.models import Q
 from django.http import HttpResponse, JsonResponse
 from django.shortcuts import render, redirect
 
-from user.froms import UserRegisterForm, RegisterForm, LoginForm
+from user.froms import UserRegisterForm, RegisterForm, LoginForm, CaptchaTestForm
 from user.models import UserProfiles
-from user.utils import util_sendmsg
+from user.utils import util_sendmsg, send_email
 
 
 def index(request):
@@ -37,7 +39,7 @@ def user_register(request):
                 return render(request, 'user/register.html', context={'msg': '用户名或者手机号码已经存在'})
         return render(request, 'user/register.html', context={'msg': '注册失败'})
 
-
+#用户账号密码登录
 def user_login(request):
     if request.method == 'GET':
         return render(request, 'user/login.html')
@@ -63,7 +65,7 @@ def user_login(request):
                 return redirect('index')
         return render(request, 'user/login.html', context={'errors': lform.errors})
 
-# 发送验证码
+# 用户验证码登录
 def code_login(request):
     if request.method == "GET":
         return render(request, 'user/codelogin.html')
@@ -118,6 +120,41 @@ def send_code(request):
         data['msg'] = '该用户不存在'
 
     return JsonResponse(data)
+
+
+# 忘记密码
+def forget_password(request):
+    if request.method == "GET":
+        form = CaptchaTestForm()
+        return render(request, 'user/forget_pwd.html', context={'form':form})
+    else:
+        # 发送邮件
+        email = request.POST.get("email")
+        # 给此邮箱发送邮件
+        result = send_email(email, request)
+        return HttpResponse(result)
+
+
+def update_pwd(request):
+    if request.method == "GET":
+        pass
+    else:
+        pass
+
+
+#定义一个路由验证码
+def valide_code(request):
+    if request.is_ajax():
+        key = request.GET.get('key')
+        code = request.GET.get('code')
+        captcha = CaptchaStore.objects.filter(hashkey=key).first()
+        if captcha.response == code.lower():
+            data = {'status': 1}
+        else:
+            data = {'status': 0}
+        return JsonResponse(data)
+    else:
+        pass
 
 # 用户退出登录
 def user_logout(request):
