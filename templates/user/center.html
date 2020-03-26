@@ -5,6 +5,13 @@
 {% endblock %}
 {% block mycss %}
     <link rel="stylesheet" href="{% static 'css/login.css' %}">
+    <style>
+        #icon{
+            height: 100px;
+            width: 100px;
+            border-radius: 50%;
+        }
+    </style>
 {% endblock %}
 
 {% block content %}
@@ -14,11 +21,12 @@
             <h1 class="login-title">个人资料</h1>
             <div class="w3layouts-main">
                 <p>{{ msg }}</p>
-                <form action="{% url 'user:center' %}" method="post" enctype="multipart/form-data">{% csrf_token %}
+                <form action="{% url 'user:center1' %}" method="post" enctype="multipart/form-data">{% csrf_token %}
                     <input type="text" placeholder="用户名" value="{{ user.username }}" name="username" required="">
                     <input type="text" placeholder="邮箱" value="{{ user.email }}" name="email" required="">
                     <input type="text" placeholder="手机号码" value="{{ user.mobile }}" name="mobile" required="">
-                    <img src="{{ MEDIA_URL }}{{ user.icon }}" id="icon" alt="">
+{#                    <img src="{{ MEDIA_URL }}{{ user.icon }}" id="icon" alt="">#}
+                    <img src="{{ user.yunicon }}" id="icon" alt="">
                     <input type="file" name="icon">
                     <input type="submit" value="提交更新" name="login">
                 </form>

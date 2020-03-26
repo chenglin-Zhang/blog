@@ -1,5 +1,6 @@
 import hashlib
 import json
+import os
 import uuid
 from time import time
 import smtplib
@@ -8,8 +9,9 @@ import requests
 
 # 想网易云信发送请求
 from django.core.mail import send_mail
+from qiniu import Auth, put_file, put_data
 
-from dJan.settings import EMAIL_HOST_USER
+from dJan.settings import EMAIL_HOST_USER, MEDIA_ROOT
 from user.models import UserProfiles
 
 
@@ -56,3 +58,41 @@ def send_email(email, request):
     ''' % (ran_code, ran_code)
     result = send_mail(subject, message, EMAIL_HOST_USER, [email, ], html_message = message)
     return result
+
+
+#上传图片到七牛云云
+# def upload_image(storeobj, imagepath):
+def upload_image(storeobj):
+    # 需要填写你的 Access Key 和 Secret Key
+    access_key = 'Y8tTQJqYZDl1KMD8pqDlrPIQTmZN-bJV928bwRhT'
+    secret_key = 'enUCVLEpa-9eRfnWcxp8OaRIkf2oZqJvieYDH9fP'
+
+    # 构建鉴权对象
+    q = Auth(access_key, secret_key)
+
+    # 要上传的空间
+    bucket_name = 'cheng-django'
+
+    # 上传后保存的文件名
+    key = storeobj.name
+
+    # 生成上传 Token，可以指定过期时间等
+    token = q.upload_token(bucket_name, key, 3600)
+
+    # 要上传文件的本地路径
+    # localfile = os.path.join(MEDIA_ROOT, imagepath)
+    '''
+        UPDATA BY Cheng START
+        Error: put_file改为put_data
+        put_file: 在本地存储时使用put_file找到文件
+        put_data: 文件以二进制的方式存储
+    '''
+    # ret, info = put_file(token, key, localfile)
+    ret, info = put_data(token, key, storeobj.read())
+    '''
+        UPDATA BY Cheng END
+    '''
+    print(ret, info)
+    filename = ret.get('key')
+    save_path = 'http://q7slh7oqx.bkt.clouddn.com/' + filename
+    return save_path

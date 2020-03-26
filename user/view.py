@@ -9,7 +9,7 @@ from django.shortcuts import render, redirect
 
 from user.froms import UserRegisterForm, RegisterForm, LoginForm, CaptchaTestForm
 from user.models import UserProfiles
-from user.utils import util_sendmsg, send_email
+from user.utils import util_sendmsg, send_email, upload_image
 
 
 def index(request):
@@ -205,6 +205,33 @@ def user_center(request):
         user.mobile = mobile
         user.icon = icon
         user.save()
+        return render(request, 'user/center.html', context={"user": user})
+
+
+#用户的个人中心 -> 使用七牛云存储
+@login_required     #装饰器,  login(request,user) user -> 继承自 abstractuser
+def user_center1(request):
+    user = request.user
+    if request.method == "GET":
+        return render(request, 'user/center.html', context={"user": user})
+    else:
+        username = request.POST.get("username")
+        email = request.POST.get("email")
+        mobile = request.POST.get("mobile")
+        icon = request.FILES.get("icon")
+        # 更新信息
+        user.username = username
+        user.email = email
+        user.mobile = mobile
+        user.icon = icon
+        user.save()
+
+        # 上传到七牛云
+        # save_path = upload_image(icon, str(user.icon))
+        save_path = upload_image(icon)
+        user.yunicon = save_path
+        user.save()
+
         return render(request, 'user/center.html', context={"user": user})
 
 def user_zhuce(request):

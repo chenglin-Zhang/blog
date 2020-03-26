@@ -78,3 +78,11 @@ session的使用:
         1. 文件夹 -> xxxmiddleware.py -> 定义类继承MiddlewareMixin
         2. 重写:
             
+            
+            
+云存储:
+    
+    1.注册用户
+    2.创建存储空间
+    3.文档中心
+    4.项目中使用
