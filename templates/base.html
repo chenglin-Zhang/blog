@@ -29,13 +29,13 @@
         <a href="about.html"><span>关于我</span><span class="en">About</span></a>
         <a href="manshenghuo.html"><span>慢生活</span><span class="en">Life</span></a>
         <a href="learn.html"><span>碎言碎语</span><span class="en">Doing</span></a>
-        <a href="mbfx.html"><span>模板分享</span><span class="en">Share</span></a>
+        <a href="{% url 'user:center' %}"><span>个人资料</span><span class="en">Share</span></a>
         <a href="learn.html"><span>学无止境</span><span class="en">Learn</span></a>
         <a href="gbook.html"><span>留言</span><span class="en">Saying</span></a>
 {#        {% if request.session.username %}#}
 {#            <a href=""><span>欢迎 {{ request.session.username }}</span><span class="en">User</span></a>#}
         {% if request.user.is_authenticated %}
-            <a href=""><span>欢迎 {{ request.user.username }}</span><span class="en">User</span></a>
+            <a href="{% url 'user:center' %}"><span>欢迎 {{ request.user.username }}</span><span class="en">User</span></a>
             <a href="{% url 'user:logout' %}"><span>注销</span><span class="en">Logout</span></a>
         {% else %}
             <a href="{% url 'user:login' %}"><span>登录</span><span class="en">Login</span></a>

@@ -70,4 +70,11 @@ session的使用:
     4.urls.py中添加entry
     
 
+中间件:
     
+    进行用户的登录验证
+    1.中间件的请求路径验证用户登录
+        步骤:
+        1. 文件夹 -> xxxmiddleware.py -> 定义类继承MiddlewareMixin
+        2. 重写:
+            

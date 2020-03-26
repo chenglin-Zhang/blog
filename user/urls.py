@@ -12,6 +12,7 @@ urlpatterns = [
     path('forget_pwd', forget_password, name='forget_pwd'),
     path('valide_code', valide_code, name='valide_code'),
     path('update_pwd', update_pwd, name='update_pwd'),
+    path('center', user_center, name='center'),
     path('zhuce', user_zhuce, name='zhuce')
 
 ]

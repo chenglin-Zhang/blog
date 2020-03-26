@@ -25,7 +25,7 @@ class MiddleWare1(MiddlewareMixin):
             print(type(request.user))
             print(request.user.username)  # 认为就是用户登录的对象
             if not request.user.is_authenticated:
-                return redirect(reverse('user:login'))
+                return redirect('user:login')
     # 进入view之前调用的函数
     def process_view(self, request, callback,callback_args, callback_kwargs):
         print('callback_args:',callback_args)

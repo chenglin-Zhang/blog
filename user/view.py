@@ -1,5 +1,6 @@
 from captcha.models import CaptchaStore
 from django.contrib.auth import logout, authenticate, login
+from django.contrib.auth.decorators import login_required
 from django.contrib.auth.hashers import make_password, check_password
 from django.core.mail import send_mail
 from django.db.models import Q
@@ -185,6 +186,12 @@ def user_logout(request):
     # Remove the authenticated user's ID from the request and flush their session data.
     logout(request)
     return redirect('index')
+
+
+#用户的个人中心
+@login_required     #装饰器,  login(request,user) user -> 继承自 abstractuser
+def user_center(request):
+    return HttpResponse("个人中心")
 
 
 def user_zhuce(request):

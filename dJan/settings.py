@@ -53,6 +53,8 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    # 'middleware.MyMiddleware.MiddleWare2',
+    # 'middleware.MyMiddleware.MiddleWare1',
 ]
 
 ROOT_URLCONF = 'dJan.urls'
@@ -148,3 +150,6 @@ EMAIL_HOST_PASSWORD = 'HTUOMXIBZDPIQOZQ'
 EMAIL_PORT = 25
 EMAIL_USE_TLS = True
 EMAIL_USE_SSL = False
+
+#添加登录路由, 配合@login_required使用
+LOGIN_URL = '/user/login'
