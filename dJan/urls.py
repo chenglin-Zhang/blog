@@ -15,12 +15,15 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path, include, re_path
+from django.views.static import serve
 
+from dJan.settings import MEDIA_ROOT
 from user.view import index
 
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('',index, name='index'),
     path('user/', include('user.urls', namespace='user')),
-    re_path(r'captcha', include('captcha.urls'))
+    re_path(r'captcha', include('captcha.urls')),
+    re_path(r'media/(?P<path>.*)', serve, {'document_root': MEDIA_ROOT})
 ]

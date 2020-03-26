@@ -5,7 +5,7 @@ from django.db import models
 class UserProfiles(AbstractUser):
     # 添加字段
     mobile = models.CharField(max_length=11, verbose_name='手机号码', unique=True)
-    icon = models.ImageField(upload_to='uploads/%Y/%m/%d')
+    icon = models.ImageField(upload_to='uploads/%Y/%m/%d', default='uploads/minel.png')
 
     class Meta:
         db_table = 'userprofile'

@@ -191,8 +191,21 @@ def user_logout(request):
 #用户的个人中心
 @login_required     #装饰器,  login(request,user) user -> 继承自 abstractuser
 def user_center(request):
-    return HttpResponse("个人中心")
-
+    user = request.user
+    if request.method == "GET":
+        return render(request, 'user/center.html', context={"user": user})
+    else:
+        username = request.POST.get("username")
+        email = request.POST.get("email")
+        mobile = request.POST.get("mobile")
+        icon = request.FILES.get("icon")
+        # 更新信息
+        user.username = username
+        user.email = email
+        user.mobile = mobile
+        user.icon = icon
+        user.save()
+        return render(request, 'user/center.html', context={"user": user})
 
 def user_zhuce(request):
     if request.method == "GET":
