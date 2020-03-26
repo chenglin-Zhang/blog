@@ -1,4 +1,4 @@
 1.  #jQuery报attr错误 img.attr is not a function
     templates/user/forget_pwd.html
 
-2.
+2.UserProfiles.objects.get(pk=uid)

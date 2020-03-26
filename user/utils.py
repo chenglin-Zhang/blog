@@ -43,17 +43,16 @@ def send_email(email, request):
     user = UserProfiles.objects.filter(email=email).first()
     ran_code = uuid.uuid4()
     print(ran_code)
-    print(type(ran_code))
     ran_code = str(ran_code)
     print(type(ran_code))
     ran_code = ran_code.replace('-', '')
     request.session[ran_code] = user.id
     message = '''
         Dear,
-            User, 此链接用于用户找回密码,<a href='http://127.0.0.1:8000/user/updata_pwd?c=%s'>更新密码</a>
+            User, 此链接用于用户找回密码,<a href='http://127.0.0.1:8000/user/update_pwd?c=%s'>更新密码</a>
             如果链接不能点击,请复制:
-            http://127.0.0.1:8000/user/updata_pwd?c=%s
+            http://127.0.0.1:8000/user/update_pwd?c=%s
         个人博客团队
     ''' % (ran_code, ran_code)
-    result = send_mail(subject, message, EMAIL_HOST_USER, [email, ])
+    result = send_mail(subject, message, EMAIL_HOST_USER, [email, ], html_message = message)
     return result

@@ -39,7 +39,8 @@ def user_register(request):
                 return render(request, 'user/register.html', context={'msg': '用户名或者手机号码已经存在'})
         return render(request, 'user/register.html', context={'msg': '注册失败'})
 
-#用户账号密码登录
+
+# 用户账号密码登录
 def user_login(request):
     if request.method == 'GET':
         return render(request, 'user/login.html')
@@ -65,6 +66,7 @@ def user_login(request):
                 return redirect('index')
         return render(request, 'user/login.html', context={'errors': lform.errors})
 
+
 # 用户验证码登录
 def code_login(request):
     if request.method == "GET":
@@ -77,7 +79,7 @@ def code_login(request):
         check_code = request.session.get(mobile)
         print(check_code)
         if code == check_code:
-            #验证码匹配后根据手机号获取user对象数据
+            # 验证码匹配后根据手机号获取user对象数据
             user = UserProfiles.objects.filter(mobile=mobile).first()
             # 认证 如果合法 返回User对象, 如果不合法返回None
             # 认证给出的用户名和密码，使用 authenticate() 函数。它接受两个参数，用户名 username 和 密码 password ，
@@ -89,7 +91,7 @@ def code_login(request):
             if user:
                 # authenticate() 只是验证一个用户的证书而已。 而要登录一个用户，使用 login() 。
                 # 该函数接受一个 HttpRequest 对象和一个 User 对象作为参数并使用Django的会话（ session ）框架把用户的ID保存在该会话中。
-                login(request,user)
+                login(request, user)
             return redirect('index')
         else:
             return render(request, 'user/codelogin.html', context={'msg': '验证码有误'})
@@ -126,23 +128,40 @@ def send_code(request):
 def forget_password(request):
     if request.method == "GET":
         form = CaptchaTestForm()
-        return render(request, 'user/forget_pwd.html', context={'form':form})
+        return render(request, 'user/forget_pwd.html', context={'form': form})
     else:
         # 发送邮件
         email = request.POST.get("email")
         # 给此邮箱发送邮件
         result = send_email(email, request)
-        return HttpResponse(result)
+        if result:
+            return HttpResponse("邮件发送成功！赶快去邮箱更改密码！<a href='/'>返回首页>>> </a>")
 
 
+# 更新密码
 def update_pwd(request):
     if request.method == "GET":
-        pass
+        #根据邮件发送获取的ID
+        c = request.GET.get("c")
+        return render(request, 'user/update_pwd.html', context={'c': c})
     else:
-        pass
+        code = request.POST.get('code')
+        uid = request.session.get(code)
+        user = UserProfiles.objects.get(pk=uid)
+        # 获取密码
+        pwd = request.POST.get('password')
+        repwd = request.POST.get('repassword')
+        if pwd == repwd and user:
+            # 加密
+            pwd = make_password(pwd)
+            user.password = pwd
+            user.save()
+            return render(request, 'user/update_pwd.html', context={'msg': '密码更新成功'})
+        else:
+            return render(request, 'user/update_pwd.html', context={'msg': '更新失败'})
 
 
-#定义一个路由验证码
+# 定义一个路由验证码
 def valide_code(request):
     if request.is_ajax():
         key = request.GET.get('key')
@@ -155,6 +174,7 @@ def valide_code(request):
         return JsonResponse(data)
     else:
         pass
+
 
 # 用户退出登录
 def user_logout(request):
