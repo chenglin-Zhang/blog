@@ -24,6 +24,7 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('',index, name='index'),
     path('user/', include('user.urls', namespace='user')),
+    path('article/', include('article.urls', namespace='article')),
     re_path(r'captcha', include('captcha.urls')),
     re_path(r'media/(?P<path>.*)', serve, {'document_root': MEDIA_ROOT})
 ]

@@ -39,7 +39,8 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'user',
-    'captcha'
+    'captcha',
+    'article'
 ]
 
 #如果用户继承了AbstractUser,修改auth_user的模型
