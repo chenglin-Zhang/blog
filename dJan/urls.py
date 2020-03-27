@@ -13,6 +13,7 @@ Including another URLconf
     1. Import the include() function: from django.urls import include, path
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
+import xadmin
 from django.contrib import admin
 from django.urls import path, include, re_path
 from django.views.static import serve
@@ -21,7 +22,9 @@ from dJan.settings import MEDIA_ROOT
 from user.view import index
 
 urlpatterns = [
-    path('admin/', admin.site.urls),
+    # 使用Xadmin代替admin
+    # path('admin/', admin.site.urls),
+    path('xadmin/', xadmin.site.urls),
     path('',index, name='index'),
     path('user/', include('user.urls', namespace='user')),
     path('article/', include('article.urls', namespace='article')),

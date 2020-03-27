@@ -29,9 +29,9 @@ class Article(models.Model):
     image = models.ImageField(upload_to='uploads/article/%Y/%m/%d', verbose_name='文章封面')
 
     # 文章和标签多对多映射
-    tags = models.ManyToManyField(to=Tag)
+    tags = models.ManyToManyField(to=Tag, verbose_name='标签')
     #文章和用户多对一
-    user = models.ForeignKey(to=UserProfiles, on_delete=models.CASCADE)
+    user = models.ForeignKey(to=UserProfiles, on_delete=models.CASCADE, verbose_name='用户')
 
     def __str__(self):
         return self.title

@@ -40,7 +40,9 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'user',
     'captcha',
-    'article'
+    'article',
+    'xadmin',   #xadmin
+    'crispy_forms' #Xadmin
 ]
 
 #如果用户继承了AbstractUser,修改auth_user的模型
