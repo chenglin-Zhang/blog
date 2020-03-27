@@ -7,13 +7,19 @@ from django.db.models import Q
 from django.http import HttpResponse, JsonResponse
 from django.shortcuts import render, redirect
 
+from article.models import Article
 from user.froms import UserRegisterForm, RegisterForm, LoginForm, CaptchaTestForm
 from user.models import UserProfiles
 from user.utils import util_sendmsg, send_email, upload_image
 
 
 def index(request):
-    return render(request, 'index.html')
+    farticles = Article.objects.all().order_by("-click_num")[:3]
+    darticles = Article.objects.all().order_by("-data")[:8]
+    print(farticles)
+    return render(request, 'index.html', context={"figure_articles": farticles, 'darticles': darticles})
+
+    # return render(request, 'index.html')
 
 
 # 注册
