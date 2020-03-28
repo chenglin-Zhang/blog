@@ -10,14 +10,18 @@
     </title>
     <meta name="keywords" content="个人博客"/>
     <meta name="description" content="杨青个人博客，"/>
+{#    网站图标#}
+{#    <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon">#}
     <link href="{% static 'css/base.css' %}" rel="stylesheet">
     <link href="{% static 'css/index.css' %}" rel="stylesheet">
     <!--[if lt IE 9]>
     <script src="{% static 'js/modernizr.js' %}"></script>
     <![endif]-->
     <script src="{% static 'js/scrollReveal.js' %}"></script>
+{#    引用CDN: Jquery3.1#}
     <script src="https://cdn.bootcss.com/jquery/3.3.1/jquery.min.js"></script>
     {% block mycss %}
+
     {% endblock %}
 </head>
 <body>
@@ -30,7 +34,7 @@
         <a href="manshenghuo.html"><span>慢生活</span><span class="en">Life</span></a>
         <a href="learn.html"><span>碎言碎语</span><span class="en">Doing</span></a>
         <a href="{% url 'user:center' %}"><span>个人资料</span><span class="en">Share</span></a>
-        <a href="learn.html"><span>学无止境</span><span class="en">Learn</span></a>
+        <a href="{% url 'article:show' %}"><span>学无止境</span><span class="en">Learn</span></a>
         <a href="gbook.html"><span>留言</span><span class="en">Saying</span></a>
 {#        {% if request.session.username %}#}
 {#            <a href=""><span>欢迎 {{ request.session.username }}</span><span class="en">User</span></a>#}
