@@ -86,3 +86,21 @@ session的使用:
     2.创建存储空间
     3.文档中心
     4.项目中使用
+    
+    
+使用xadmin
+    
+    
+    1.安装
+        1)pip install django-xadmin     Python3不支持,报错 
+        2)源码安装, 下载源码后  pip install -r requirements.txt
+    2.xadmin复制到项目中
+    3.配置setting.py
+        INSTALLED_APPS=[
+            'xadmin',
+            'crispy_forms'
+        ]
+    4.URL访问:
+        主路由:path('xadmin', xadmin.site.urls)
+    5.数据库迁移~同步
+    

@@ -42,7 +42,9 @@ INSTALLED_APPS = [
     'captcha',
     'article',
     'xadmin',   #xadmin
-    'crispy_forms' #Xadmin
+    'crispy_forms', #Xadmin
+    'ckeditor',
+    'ckeditor_uploader',
 ]
 
 #如果用户继承了AbstractUser,修改auth_user的模型
@@ -137,9 +139,12 @@ USE_TZ = False
 
 STATIC_URL = '/static/'
 STATICFILES_DIRS = [os.path.join(BASE_DIR,'static')]
+# STATIC_ROOT = os.path.join(BASE_DIR, 'static')
 
 MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
+CKEDITOR_UPLOAD_PATH = "uploads/",
+# CKEDITOR_IMAGE_BACKEND = 'pillow'
 
 
 #发送邮件的设置

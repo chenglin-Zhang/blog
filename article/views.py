@@ -33,14 +33,13 @@ def article_detail(request):
 
 def article_show(request):
     tags = Tag.objects.all()[:6]
-    tid = request.GET.get("tid")
+    tid = request.GET.get("tid", "")
 
     # tag 和 article表 联合查询
     if tid:
         tag = Tag.objects.get(pk=tid)
         articles = tag.article_set.all()
     else:
-        tid = ''
         articles = Article.objects.all()
 
     paginator = Paginator(articles, 2)  # 分页对象 Paginator(列表对象, 每页个数)

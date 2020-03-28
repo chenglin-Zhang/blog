@@ -60,7 +60,7 @@ def send_email(email, request):
     return result
 
 
-#上传图片到七牛云云
+#上传图片到七牛云
 # def upload_image(storeobj, imagepath):
 def upload_image(storeobj):
     # 需要填写你的 Access Key 和 Secret Key
@@ -86,6 +86,7 @@ def upload_image(storeobj):
         Error: put_file改为put_data
         put_file: 在本地存储时使用put_file找到文件
         put_data: 文件以二进制的方式存储
+        上传文档参考: https://developer.qiniu.com/kodo/sdk/1242/python
     '''
     # ret, info = put_file(token, key, localfile)
     ret, info = put_data(token, key, storeobj.read())

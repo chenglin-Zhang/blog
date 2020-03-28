@@ -1,3 +1,4 @@
+from ckeditor_uploader.fields import RichTextUploadingField
 from django.db import models
 
 # Create your models here.
@@ -22,7 +23,8 @@ class Tag(models.Model):
 class Article(models.Model):
     title = models.CharField(max_length=100, verbose_name="标题")
     desc = models.CharField(max_length=256, verbose_name='简介')
-    content = models.TextField(verbose_name='内容')
+    # content = models.TextField(verbose_name='内容')
+    content = RichTextUploadingField(verbose_name='内容')
     data = models.DateField(auto_now=True, verbose_name='创建日期')
     click_num = models.IntegerField(default=0, verbose_name='点击量')
     love_num = models.IntegerField(default=0, verbose_name='点赞量')

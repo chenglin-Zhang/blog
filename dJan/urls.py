@@ -13,11 +13,13 @@ Including another URLconf
     1. Import the include() function: from django.urls import include, path
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
-import xadmin
-from django.contrib import admin
-from django.urls import path, include, re_path
+
+from django.conf import settings
+from django.conf.urls import include, static, url
+from django.urls import path, re_path
 from django.views.static import serve
 
+import xadmin
 from dJan.settings import MEDIA_ROOT
 from user.view import index
 
@@ -25,9 +27,13 @@ urlpatterns = [
     # 使用Xadmin代替admin
     # path('admin/', admin.site.urls),
     path('xadmin/', xadmin.site.urls),
-    path('',index, name='index'),
+    path('', index, name='index'),
     path('user/', include('user.urls', namespace='user')),
     path('article/', include('article.urls', namespace='article')),
-    re_path(r'captcha', include('captcha.urls')),
-    re_path(r'media/(?P<path>.*)', serve, {'document_root': MEDIA_ROOT})
+    re_path(r'captcha/', include('captcha.urls')),
+    re_path(r'media/(?P<path>.*)', serve, {'document_root': MEDIA_ROOT}),
+    # 加载ckeditor的urls
+    # re_path(r'ckeditor/', include('ckeditor_uploader.urls')),
+    url(r'^ckeditor/', include('ckeditor_uploader.urls')),
 ]
+urlpatterns += static.static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
