@@ -22,7 +22,7 @@
                     <h2>{{ darticle.desc }}</h2>
                     <p>
                         <span class="blogpic"><a href="{{ MEDIA_URL}}{{ darticle.image }}"><img src="{{ MEDIA_URL }}{{ darticle.image }}"></a></span>
-                        {{ darticle.content }}
+                        {{ darticle.desc }}
                     </p>
                     <a href="{% url 'article:detail' %}?id={{ darticle.id }}" target="_blank" class="readmore">阅读全文&gt;&gt;</a>
                 </div>
