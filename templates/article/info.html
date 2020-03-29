@@ -1,11 +1,55 @@
 {% extends 'base.html' %}
 {% load staticfiles %}
 {% block title %}
-    详情
+    文章详情
 {% endblock %}
 {% block mycss %}
-    <link href="{% static 'css/info.css' %}" rel="stylesheet">
     <link href="{% static 'css/m.css' %}" rel="stylesheet">
+    <link href="{% static 'css/info.css' %}" rel="stylesheet">
+    <style>
+        .news_pl ul li {
+            padding-top: 30px;
+            padding-bottom: 10px;
+            border-bottom: 1px solid darkgray;
+            color: #686868;
+            font-size: 16px;
+            margin-left: 20px;
+            margin-right: 20px;
+        }
+        .news_pl ul li p:first-child {
+            height: 30px;
+            line-height: 30px;
+            margin-bottom: 15px;
+        }
+        .news_pl ul li p span:first-child {
+            float: left;
+            font-weight: bold;
+            font-size: 18px;
+        }
+        .news_pl ul li p span:last-child {
+            float: right;
+        }
+        #plpost {
+            margin: 10px 20px;
+        }
+        #plpost > p:first-child {
+            height: 30px;
+            line-height: 30px;
+        }
+        #plpost > p > span:first-child {
+            float: left;
+            font-size: 22px;
+            color: darkgray;
+        }
+        #plpost > p > span:last-child {
+            float: right;
+            font-size: 18px;
+            color: red;
+        }
+        #plpost p {
+            margin-bottom: 10px;
+        }
+    </style>
 {% endblock %}
 
 {% block content %}
@@ -14,8 +58,10 @@
             <h2 class="intitle">您现在的位置是：<a href="/">网站首页</a>&nbsp;&gt;&nbsp;<a href="/">学无止境</a></h2>
 
             <h3 class="news_title">{{ article.title }}</h3>
-            <div class="news_author"><span class="au01">{{ article.user.username }}</span><span
-                    class="au02">{{ article.date }}</span><span class="au03">共<b>{{ article.click_num }}</b>人围观</span>
+            <div class="news_author">
+                <span class="au01">{{ article.user.username }}</span>
+                <span class="au02">{{ article.data }}</span>
+                <span class="au03">共<b>{{ article.click_num }}</b>人围观</span>
             </div>
             <div class="tags">
                 {% for tag in article.tags.all %}
@@ -26,12 +72,7 @@
             </div>
             <div class="news_infos">
                 {{ article.content| safe }}
-                <p>
-                    矛盾了很长时间，莱伊恩终于想到了一条妙计，他在大厅里加了四根柱子，但它们并未与天花板连接，只不过是装装样子，糊弄那些刚愎自用的家伙。这个秘密始终没有被发现。直到300多年后市政府准备修缮大厅天花板时，才发现莱伊恩的“弄虚作假”。我们每个人都想得到别人的尊敬，尤其有了一定的社会地位的人，更想得到别人尊重。建筑设计师克里斯托·莱伊恩很明白这一点，当市政府权威人士对他的建筑设计提出疑问时，他并不坚持己见，而是让市政府权威人士感到他对他们很尊重。所以，一个聪明的人，不仅能维护自己的尊严，还能够顾及他人的尊严。</p>
-                <p><img src="{% static 'images/v2.jpg' %}"></p>
-                <p>莱伊恩的故事，向我们讲述了一个深刻的哲理“恪守着自己的原则，哪怕遭遇到最大的阻力，也要想办法抵达胜利。”</p>
-                <p>
-                    就拿我自己来说吧，有时候会很矛盾，设计好的作品，不把它分享出来，会觉得待在自己电脑里面实在是没有意义。干脆就发布出去吧。我也害怕收到大家不好的评论，有些评论，可能说者无意，但是对于每一个用心的站长来说，都会受很深的影响，愤怒，恼羞。</p>
+
                 <p>心态很重要，再来看莱伊恩，他当时顶着多大的压力呀。同样作为一个前端设计师，哪怕遭到质疑，我们也要像莱伊恩一样恪守自己的原则。</p>
             </div>
         </div>
@@ -47,17 +88,49 @@
                 <li><a href="{% url 'article:detail' %}?id={{ artcileabout.id }}"
                        title="云南之行——丽江古镇玉龙雪山">{{ artcileabout.title }}</a></li>
             {% endfor %}
-
-
         </ul>
     </div>
     <div class="news_pl">
         <h2>文章评论</h2>
         <ul>
-            <li>写得好</li>
-            <li>写得好</li>
+            {% for comment in comments %}
+                <li>
+                    <p><span>{{ comment.nickname }}</span> <span>{{ comment.date }}</span></p>
+                    <p>{{ comment.content }}</p>
+                </li>
+            {% endfor %}
         </ul>
-    </div>
+        <div id="plpost">
+            <p><span>来说句话吧....</span> <span>共有评论数:{{ comments.count }}条</span></p>
 
+            <p><input type="text" name="uname" id="uname" placeholder="输入用户昵称"></p>
+            <p>
+                <textarea name="saytext" id="saytext" cols="80" rows="6"></textarea>
+            </p>
+            <p><input type="submit" value="评论" id='btncomment'></p>
+        </div>
+    </div>
+{% endblock %}
+{% block myjs %}
+    <script>
+        $(function () {
+            $("#btncomment").click(function () {
+                var nickname = $('#uname').val();
+                var saytext = $('#saytext').val();
+                {#发送请求#}
+                $.getJSON("{% url 'article:comment' %}", {
+                    nickname: nickname,
+                    saytext: saytext,
+                    aid: "{{article.id}}"
+                }, function (data) {
+                    if (data['status'] == 1){
+                        window.location.reload()
+                    }else {
+                        alert('提交失败')
+                    }
+                })
+            })
+        })
+    </script>
 {% endblock %}
 

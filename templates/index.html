@@ -8,7 +8,7 @@
                     <a href="{% url 'article:detail' %}?id={{ figure_article.id }}"><img src="{{ MEDIA_URL }}{{ figure_article.image }}"><span>点击查看详情</span></a>
                 </ul>
                 <p><a href="{% url 'article:detail' %}?id={{ figure_article.id }}">{{ figure_article.desc }}</a></p>
-                <figcaption>{{ figure_article.content }}</figcaption>
+                <figcaption>{{ figure_article.desc }}</figcaption>
             </figure>
         {% endfor %}
     </div>
@@ -30,6 +30,3 @@
         {% endfor %}
     </ul>
 {% endblock %}
-
-
-
