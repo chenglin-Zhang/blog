@@ -9,5 +9,6 @@ urlpatterns = [
     path('detail', article_detail, name='detail'),
     path('show', article_show, name='show'),
     path('write', write_article, name='write'),
-    path('comment', article_comment, name='comment')
+    path('comment', article_comment, name='comment'),
+    path('message', blog_message, name='message')
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)  # 没有这一句无法显示上传的图片

@@ -7,7 +7,7 @@ from django.shortcuts import render
 from django.urls import reverse
 
 from article.forms import ArticleForm
-from article.models import Article, Tag, Comment
+from article.models import Article, Tag, Comment, Message
 
 
 def index(request):
@@ -31,7 +31,7 @@ def article_detail(request):
         # 在article表中包含所有tag的内容
         for article1 in tag.article_set.all():
             # 列表中没有               and    列表条数不超过6    and      不包含自己
-            if article1 not in list_about and len(list_about) <= 6 and article1.id != int(id):
+            if article1 not in list_about and len(list_about) <= 5 and article1.id != int(id):
                 print("%s-----%s" % (id, article1.id))
                 list_about.append(article1)
 
@@ -109,3 +109,24 @@ def article_comment(request):
     else:
         data = {'status': 0}
     return JsonResponse(data)
+
+
+# 文章留言
+def blog_message(request):
+    messages = Message.objects.all()
+    paginator = Paginator(messages, 8)
+    # 获取页码数
+    page = request.GET.get('page', 1)
+    # 得到page对象
+    page = paginator.get_page(page)
+    if request.method == "GET":
+        return render(request, 'article/lmessage.html', {'page': page})
+    else:
+        name = request.POST.get('name')
+        mycall = request.POST.get('mycall')
+        lytext = request.POST.get('lytext')
+        if name and lytext:
+            message = Message.objects.create(nickname=name, content=lytext, icon=mycall)
+            if message:
+                return redirect(reverse("article:message"))
+        return render(request, 'article/lmessage.html', context={"page": page, 'error':'必须输入用户名和内容'})

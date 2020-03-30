@@ -35,7 +35,7 @@
         <a href="learn.html"><span>碎言碎语</span><span class="en">Doing</span></a>
         <a href="{% url 'user:center' %}"><span>个人资料</span><span class="en">Share</span></a>
         <a href="{% url 'article:show' %}"><span>学无止境</span><span class="en">Learn</span></a>
-        <a href="gbook.html"><span>留言</span><span class="en">Saying</span></a>
+        <a href="{% url 'article:message' %}"><span>留言</span><span class="en">Saying</span></a>
 {#        {% if request.session.username %}#}
 {#            <a href=""><span>欢迎 {{ request.session.username }}</span><span class="en">User</span></a>#}
         {% if request.user.is_authenticated %}
