@@ -7,7 +7,7 @@ class UserProfiles(AbstractUser):
     mobile = models.CharField(max_length=11, verbose_name='手机号码', unique=True)
     # 使用云存储代替本地存储
     # icon = models.ImageField(upload_to='uploads/%Y/%m/%d', default='uploads/minel.png')
-    yunicon = models.CharField(max_length=200, default='')
+    yunicon = models.CharField(max_length=200, verbose_name="云头像", default='')
 
     class Meta:
         db_table = 'userprofile'

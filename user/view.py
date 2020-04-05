@@ -240,6 +240,7 @@ def user_center1(request):
 
         return render(request, 'user/center.html', context={"user": user})
 
+
 def user_zhuce(request):
     if request.method == "GET":
         reform = UserRegisterForm()
@@ -251,3 +252,7 @@ def user_zhuce(request):
             pass
             # print(reform.cleaned_data)
         return HttpResponse('OK')
+
+
+def user_manager(request):
+    return redirect('xadmin')

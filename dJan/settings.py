@@ -43,8 +43,8 @@ INSTALLED_APPS = [
     'article',
     'xadmin',   #xadmin
     'crispy_forms', #Xadmin
-    'ckeditor',
-    'ckeditor_uploader',
+    'ckeditor', #富文本
+    'ckeditor_uploader', #富文本图片上传，目前上传服务器报500错误 20200405
 ]
 
 #如果用户继承了AbstractUser,修改auth_user的模型

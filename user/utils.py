@@ -40,13 +40,10 @@ def util_sendmsg(mobile):
 
 # 邮件发送
 def send_email(email, request):
-    print(email)
     subject = '找回密码'
     user = UserProfiles.objects.filter(email=email).first()
     ran_code = uuid.uuid4()
-    print(ran_code)
     ran_code = str(ran_code)
-    print(type(ran_code))
     ran_code = ran_code.replace('-', '')
     request.session[ran_code] = user.id
     message = '''

@@ -6,9 +6,6 @@ from user.models import UserProfiles
 
 
 class Tag(models.Model):
-    '''
-        JS Python Java ...
-    '''
     name = models.CharField(max_length=50, verbose_name="标签")
 
     def __str__(self):
@@ -20,6 +17,7 @@ class Tag(models.Model):
         verbose_name_plural = verbose_name
 
 
+# 文章表
 class Article(models.Model):
     title = models.CharField(max_length=100, verbose_name="标题")
     desc = models.CharField(max_length=256, verbose_name='简介')

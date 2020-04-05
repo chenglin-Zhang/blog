@@ -26,7 +26,7 @@ from user.view import index
 urlpatterns = [
     # 使用Xadmin代替admin
     # path('admin/', admin.site.urls),
-    path('xadmin/', xadmin.site.urls),
+    path('xadmin/', xadmin.site.urls, name='xadmin'),
     path('', index, name='index'),
     path('user/', include('user.urls', namespace='user')),
     path('article/', include('article.urls', namespace='article')),

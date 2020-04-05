@@ -14,6 +14,7 @@ urlpatterns = [
     path('update_pwd', update_pwd, name='update_pwd'),
     path('center', user_center, name='center'),
     path('center1', user_center1, name='center1'),
-    path('zhuce', user_zhuce, name='zhuce')
+    path('zhuce', user_zhuce, name='zhuce'),
+    path('manager', user_manager, name='manager')
 
 ]

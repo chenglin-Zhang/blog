@@ -15,6 +15,11 @@
             height: 100px;
             width: 100px;
             border-radius: 50%;
+            margin: 15px auto;
+        }
+        #icon-btn{
+            margin: 0 auto;
+            display: none;
         }
     </style>
 {% endblock %}
@@ -27,11 +32,11 @@
                 <h2><span>个人信息</span></h2>
                 <p>{{ msg }}</p>
                 <form action="{% url 'user:center1' %}" method="post" enctype="multipart/form-data">{% csrf_token %}
+                    <img src="{{ user.yunicon }}" id="icon" alt="">
+                    <input type="file" id="icon-btn" value="更改头像" name="icon">
                     <input type="text" placeholder="用户名" value="{{ user.username }}" name="username" required="">
                     <input type="email" placeholder="邮箱" value="{{ user.email }}" name="email" required="">
                     <input type="text" placeholder="手机号码" value="{{ user.mobile }}" name="mobile" required="">
-                    <img src="{{ user.yunicon }}" id="icon" alt="">
-                    <input type="file" name="icon">
                     <input type="submit" value="提交更新" name="login">
                 </form>
             </div>
@@ -50,7 +55,11 @@
     </script>
 
     <script>
-
-
+        {#点击头像触发上传头像按钮#}
+        $(function () {
+            $("#icon").click(function(){
+                $("#icon-btn").click()
+            })
+        })
     </script>
 {% endblock %}
