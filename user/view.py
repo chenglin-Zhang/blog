@@ -255,4 +255,4 @@ def user_zhuce(request):
 
 
 def user_manager(request):
-    return redirect('xadmin')
+    return redirect('http://127.0.0.1:8000/xadmin/')

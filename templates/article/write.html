@@ -6,17 +6,40 @@
 {% endblock %}
 {% block mycss %}
     <style>
-       form>p{
-           margin: 5px 0;
-           font-size: 16px;
-       }
+        form > p {
+            margin: 5px 0;
+            font-size: 16px;
+        }
     </style>
 {% endblock %}
 {% block content %}
-    <form action="{% url 'article:write' %}" method="post" enctype="multipart/form-data">
-        {% csrf_token %}
+    <form action="{% url 'article:write' %}" method="post" enctype="multipart/form-data">{% csrf_token %}
         {{ form.media }}
-        {{ form.as_p }}
+        <div>
+            <label>
+                文章标题：{{ form.title }}
+            </label>
+        </div>
+        <div>
+            <label for="">
+                文章描述：{{ form.desc }}
+            </label>
+        </div>
+        <div>
+            <label for="">
+                文章内容：{{ form.content }}
+            </label>
+        </div>
+        <div>
+            <label for="">
+                文章封面：{{ form.image }}
+            </label>
+        </div>
+        <div>
+            <label for="">
+                文章标签：{{ form.tags }}
+            </label>
+        </div>
         <input type="submit" value="发表文章" class="btn btn-default">
     </form>
 {% endblock %}

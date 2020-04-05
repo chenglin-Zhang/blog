@@ -1,3 +1,4 @@
+from django.contrib.auth.decorators import login_required
 from django.http import JsonResponse
 from django.shortcuts import render, redirect
 from django.core.paginator import Paginator
@@ -69,6 +70,7 @@ def article_show(request):
 
 
 # 写博客
+@login_required
 def write_article(request):
     if request.method == "GET":
         aform = ArticleForm()
