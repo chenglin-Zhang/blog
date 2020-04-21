@@ -45,6 +45,6 @@ class LoginForm(Form):
 
 
 # 验证码captcha的From
-class CaptchaTestForm(forms.Form):
-    email = EmailField(required=True, label="邮箱", error_messages={'requited': '必须填写邮箱'})
+class CaptchaTestForm(Form):
+    email = forms.EmailField(required=True, label="邮箱", error_messages={'requited': '必须填写邮箱'})
     captcha = CaptchaField()

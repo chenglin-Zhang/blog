@@ -142,7 +142,7 @@ def forget_password(request):
         # 给此邮箱发送邮件
         result = send_email(email, request)
         if result:
-            return HttpResponse("邮件发送成功！赶快去邮箱更改密码！<a href='/'>返回首页>>> </a>")
+            return HttpResponse("件发送成功！赶快去邮箱更改密码！<a href='/'>返回首页>>> </a>")
 
 
 # 更新密码
@@ -233,7 +233,7 @@ def user_center1(request):
         user.save()
 
         # 上传到七牛云
-        # save_path = upload_image(icon, str(user.icon))
+        save_path = upload_image(icon, str(user.icon))
         save_path = upload_image(icon)
         user.yunicon = save_path
         user.save()
