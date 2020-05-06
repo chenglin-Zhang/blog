@@ -1,15 +1,16 @@
 
 media文件: 文件上传的文件
 
-模型: FileField(任何文件) ImgageFiled(只能是图片)
-
-FileField(upload_to='表示文件上传路径' , uploads/%Y/%m/%d)
+    模型: FileField(任何文件) ImgageFiled(只能是图片)
+    FileField(upload_to='表示文件上传路径' , uploads/%Y/%m/%d)
 
 此路径是基于media_root指明的路径:
+
     MEDIA_URL = '/static/media'
     MEDIA_ROOT = os.path.join(BASE_DIR, 'static/media')
 
 模板中如果使用引用上传的文件,并显示:
+
     就需要再setting.py 添加 .media
 
 

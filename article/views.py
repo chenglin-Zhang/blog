@@ -77,6 +77,7 @@ def write_article(request):
         return render(request, 'article/write.html', context={'form': aform})
     else:
         aform = ArticleForm(request.POST, request.FILES)
+        print(aform)
         if aform.is_valid():
             print("校验通过")
             data = aform.cleaned_data
