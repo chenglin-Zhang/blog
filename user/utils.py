@@ -14,7 +14,7 @@ from qiniu import Auth, put_file, put_data
 from dJan.settings import EMAIL_HOST_USER, MEDIA_ROOT
 from user.models import UserProfiles
 
-
+# 使用网易云信发送验证码
 def util_sendmsg(mobile):
     # 网易云信  接口地址: https://dev.yunxin.163.com/docs/product/%E7%9F%AD%E4%BF%A1/%E7%9F%AD%E4%BF%A1%E6%8E%A5%E5%8F%A3%E6%8C%87%E5%8D%97
     url = 'https://api.netease.im/sms/sendcode.action'

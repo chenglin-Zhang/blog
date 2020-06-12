@@ -19,9 +19,6 @@ def index(request):
     print(farticles)
     return render(request, 'index.html', context={"figure_articles": farticles, 'darticles': darticles})
 
-    # return render(request, 'index.html')
-
-
 # 注册
 def user_register(request):
     if request.method == 'GET':
@@ -41,7 +38,7 @@ def user_register(request):
                 password = make_password(password)
                 user = UserProfiles.objects.create(username=username, password=password, email=email, mobile=mobile)
                 if user:
-                    return HttpResponse("注册成功")
+                    return render(request, "user/login.html")
             else:
                 return render(request, 'user/register.html', context={'msg': '用户名或者手机号码已经存在'})
         return render(request, 'user/register.html', context={'msg': '注册失败'})

@@ -19,7 +19,7 @@
                 <time class="cbp_tmtime"><span>{{ darticle.data | date:"m-d"}}</span> <span>{{ darticle.data | date:"Y"}}</span></time>
                 <div class="cbp_tmicon"></div>
                 <div class="cbp_tmlabel" data-scroll-reveal="enter right over 1s">
-                    <h2>{{ darticle.desc }}</h2>
+                    <h2>{{ darticle.title }}</h2>
                     <p>
                         <span class="blogpic"><a href="{{ MEDIA_URL}}{{ darticle.image }}"><img src="{{ MEDIA_URL }}{{ darticle.image }}"></a></span>
                         {{ darticle.desc }}

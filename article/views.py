@@ -14,8 +14,6 @@ from article.models import Article, Tag, Comment, Message
 def index(request):
     articles = Article.objects.all().order_by("-click_num")[:3]
     darticles = Article.objects.all().order_by("-data")[:8]
-    # print(darticles)
-    # print(articles)
     return render(request, 'index.html', context={"articles": articles, "darticles": darticles})
 
 
@@ -33,7 +31,6 @@ def article_detail(request):
         for article1 in tag.article_set.all():
             # 列表中没有               and    列表条数不超过6    and      不包含自己
             if article1 not in list_about and len(list_about) <= 5 and article1.id != int(id):
-                print("%s-----%s" % (id, article1.id))
                 list_about.append(article1)
 
     # 查询评论数
@@ -77,15 +74,12 @@ def write_article(request):
         return render(request, 'article/write.html', context={'form': aform})
     else:
         aform = ArticleForm(request.POST, request.FILES)
-        print(aform)
         if aform.is_valid():
-            print("校验通过")
             data = aform.cleaned_data
             article = Article()
             article.title = data.get('title')
             article.desc = data.get('desc')
             article.content = data.get('content')
-            print(type(data.get('image')))
 
             article.image = data.get('image')
             article.desc = data.get('desc')
@@ -96,7 +90,6 @@ def write_article(request):
             # return render(redirect('index'))
             return redirect(reverse('index'))
         else:
-            print("校验不通过")
             return render(request, 'article/write.html', context={'form': aform})
 
 
